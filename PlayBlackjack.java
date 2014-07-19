@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-public class {
+public class PlayBlackjack{
     
        public static void main(String[] args) throws IOException {
           
@@ -9,12 +9,37 @@ public class {
           
           @SuppressWarnings("unused")
 		boolean endResult ;
-       
+          int chips = 100;
           while (true) {
-              endResult = playBlackjack();   
-          }
-       } 
+              System.out.println("You have " + chips + " chips.");
+              int bet;
+			do {
+                 System.out.println("How many chips do you want to bet?  (Enter 0 to end.)");
+                 TextIO.put("? ");
+                 bet = System.in.read();
+                 if (bet < 0 || bet > chips)
+                     System.out.println("Your bet must be between 0 and " + chips + '.');
+              } while (bet < 0 || bet > chips);
+              if (bet == 0)
+                 break;
+              endResult = playBlackjack();
+              if (endResult)
+                  chips = chips + bet;
+               else
+                  chips = chips - bet;
+               System.out.println();
+               if (chips == 0) {
+                  System.out.println("Looks like you've are out of chips!");
+                  break;
+               }
+           }
+           
+           System.out.println();
+           System.out.println("You leave with " + chips + " chips. ");
+        
+        }               
        
+          
        
        static boolean playBlackjack() throws IOException {
              // Let the user play one game of Blackjack.
@@ -70,6 +95,7 @@ public class {
                char userAction;  // User's response, 'H' or 'S'.
                do {
             	   userAction = ((char) System.in.read()).toUpperCase();
+            	   userAction = userAction.toUpperCase();
                   if (userAction != 'H' && userAction != 'S' && userAction != 'Q')
                      TextIO.put("Please respond H or S:  ");
                } while (userAction != 'H' && userAction != 'S' && userAction != 'Q');
